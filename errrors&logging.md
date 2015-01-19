@@ -14,4 +14,34 @@ Log::useDailyFiles(storage_path().'/logs/'.$logFile);
 默认，错误详细信息是开启的。当有错误发生时，你将会看到错误的调用栈过程和错误信息。你也可以设置`app/config/app.php`里选项`debug`的值为`false`来禁用它。
 >* 注意：生成环境墙裂建议您关闭错误信息调试。
 
-### 
+### 错误信息处理
+默认地，`app/start/global.php`文件包含了针对所有异常的错误处理器：
+```php
+App::error(function(Exception $exception)
+{
+    Log::error($exception);
+});
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
