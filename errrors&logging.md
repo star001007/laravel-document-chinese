@@ -49,7 +49,8 @@ App::fatal(function($exception)
 若有多个异常处理器，则异常处理器应该定义应该是从一般到具体。比如，`Exception`异常应该定义在自定义异常`Illuminate\Encryption\DecryptException`：
 
 #### 异常处理器放到哪儿
-laravel没有指定默认地宿主目录，你可以随意指定。一个选择时放在`start/global.php`文件。总体来说，这里是存放启动代码的绝佳选择。
+laravel没有指定默认地宿主目录，你可以随意指定。一个选择时放在`start/global.php`文件。总体来说，这里是存放启动代码的绝佳选择。若这个文件越来越臃肿，你可以创建`app/errors.php`文件，然后在`start/global.php`文件里导入它。第三种方法是创建一个`服务器提供商`来注册和处理。没有唯一标准，选择你习惯的就好。
+
 
 
 
