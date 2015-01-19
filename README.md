@@ -1,2 +1,7 @@
-# laravel-document-chinese
-laravel document for chinese
+Laravel 文档翻译及学习笔记
+=======
+
+包含两部分内容：
+>* 翻译官方文档laravel 4.2
+>* 记录学习过程中的心得体会
+
