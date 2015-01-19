@@ -53,6 +53,69 @@ laravel没有指定默认地宿主目录，你可以随意指定。一个选择�
 
 
 
+### HTTP异常
+一些异常描述了服务器的HTTP错误代码。比如，"page not fountd"404错误，"unauthorized error"401错误，或者500内部错误。若需要产生这些响应时，使用如下方法：
+```
+App:abort(404);
+```
+
+同时地，你也可以提供一个响应
+```
+App::abort(403, 'Unauthorized action.');
+```
+这个方法可以在请求生命周期内任何时间内使用。
+
+
+### 处理404错误
+若需要方便地返回自定义的404错误页面，你可以给应用中所有"404 Not Found"错误注册一个错误处理器：
+```
+App::missing(function($exception)
+{
+    return Response::view('errors.missing', array(), 404);
+});
+```
+
+### 日志
+laravel日志工具在强大的`Monolog`库文件上面提供了一个简单的层。默认地，laravel是配置成单个日志文件的，存储在`app/storage/logs/laravel.log`。你可以如下给日志系统里写入日志：
+```php
+Log::info('This is some useful information.');
+
+Log::warning('Something could be going wrong.');
+
+Log::error('Something is really going wrong.');
+```
+这个日志工具根据`RFC 5424`定义：**debug**,**info**,**notice**,**warning**,**error**,**critical**和**alert** 提供了6个日志级别：
+
+日志方法可以传递一个`context`索引的数组：
+```
+Log::info('Log message', array('context' => 'Other helpful information'));
+```
+
+Monolog还有一系列的额外处理器你可以用来记录日志。若想获取部署的Monolog实例，下面调用：
+```
+$monolog = Log::getMonolog();
+```
+你也可以给传递给日志的所有信息注册一个事件：
+
+#### 注册日志监听
+```
+Log::listen(function($level, $message, $context)
+{
+    //
+});
+```
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
