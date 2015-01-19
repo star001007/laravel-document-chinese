@@ -23,10 +23,33 @@ App::error(function(Exception $exception)
 });
 ```
 
+这是最最基本的错误处理器。你也可以根据需要来定义，处理器一般是根据异常指定的类型提示来调用。比如，我们创建一个处理器只接受`RuntimeException`异常的实例：
+```php
+App::error(function(RuntimeException $exception)
+{
+    // Handle the exception...
+});
+```
+若异常处理器返回一个响应，这个响应会被发送到浏览器其他从错误异常将不会被调用：
+```php
+App::error(function(InvalidUserException $exception)
+{
+    Log::error($exception);
 
+    return 'Sorry! Something is wrong with this account!';
+});
+```
+若想监听PHP`fatal errors`，你需要使用`App::fatal`方法：
+```php
+App::fatal(function($exception)
+{
+    //
+});
+```
+若有多个异常处理器，则异常处理器应该定义应该是从一般到具体。比如，`Exception`异常应该定义在自定义异常`Illuminate\Encryption\DecryptException`：
 
-
-
+#### 异常处理器放到哪儿
+laravel没有指定默认地宿主目录，你可以随意指定。一个选择时放在`start/global.php`文件。总体来说，这里是存放启动代码的绝佳选择。
 
 
 
