@@ -259,8 +259,7 @@ DB::table('users')->decrement('votes');
 DB::table('users')->decrement('votes', 5);
 ```
 
-你也可以同时指定其它列的更新
-####
+#### 你也可以同时指定其它列的更新
 ```php
 DB::table('users')->increment('votes', 1, array('name' => 'John'));
 ```
