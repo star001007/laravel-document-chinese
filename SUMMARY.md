@@ -19,6 +19,6 @@
    * [错误和日志](errrors&logging.md)
 * 深入学习
 * 数据库
-   * [basic_database_usage](basic_database_usage.md)
+   * [基本用法](basic_database_usage.md)
 * Artisan CLI
 
