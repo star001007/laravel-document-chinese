@@ -203,9 +203,9 @@ $total = DB::table('orders')->sum('price');
 
 ### 原生(Raw)表达式
 有时候你需要用原生表达式，这些表达式会作为字串来注入query，所以你需要特别小心sql注入。使用`DB::raw`方法：
-```
 
 #### 使用原生表达式
+```
 $users = DB::table('users')
             ->select(DB::raw('count(*) as user_count, status'))
             ->where('status', '<>', 1)
