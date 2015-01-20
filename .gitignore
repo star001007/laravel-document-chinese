@@ -1,1 +1,9 @@
 /_book/
+.idea/.name
+.idea/encodings.xml
+.idea/laravel-document-chinese.iml
+.idea/misc.xml
+.idea/modules.xml
+.idea/scopes/scope_settings.xml
+.idea/vcs.xml
+.idea/workspace.xml
