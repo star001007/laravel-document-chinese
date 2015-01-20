@@ -6,6 +6,7 @@ laravel配置数据库、执行`queries`非常简单。配置文件在`app/confi
 目前之前的数据库有：MySQL/Postgres/SQLite/SQL Searver。
 ### 读/写连接
 
+
 ### 执行Queries
 
 ### 事务
