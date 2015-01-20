@@ -20,5 +20,6 @@
 * 深入学习
 * 数据库
    * [基本用法](basic_database_usage.md)
+   * [查询生成器](query_builder.md)
 * Artisan CLI
 
