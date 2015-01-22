@@ -93,3 +93,167 @@ User::chunk(200, function($users)
 ```
 $user = User::on('connection-name')->find(1);
 ```
+
+### 批量赋值（Mass Assignment）
+创建模型后，我们可以传递一个属性数组给模型构造器。这些属性数组通过`Mass Assignment`赋值给这个模型。虽然非常方便，但是，盲目的赋值可能会有安全的隐患。如果用户可以随意的传递输入，就可以随意更改模型的属性。出于这个考虑，所有的模型会防范批量赋值。
+
+开始前，需要给模型设置`fillable` 和 `guarded`属性：
+
+#### 给模型定义Fillable属性
+`fillable`属性指定了批量赋值哪儿些属性。可以在类或者实例类设置：
+```php
+class User extends Eloquent {
+    protected $fillable = array('first_name', 'last_name', 'email');
+}
+```
+如上，只有列出的三个属性可以进行批量赋值。
+
+#### 给模型定义Guarded属性
+与`fillable`相反的是`guarded`，类似于黑名单一样。
+```php
+class User extends Eloquent{
+    protected $guarded = array('id', 'password');
+}
+```
+>* 注意：当使用`guarded`时，你不可以使用`Input::get()`或者任何其他用户输入的原生数组给`save`和`update`方法，因为没在`guarded`中的字段可能被更新。
+
+#### 阻止批量赋值里的所有属性
+上例中，`id`和`password`属性不能批量赋值，而其他的可以。若想阻止所有属性：
+```php
+protected $guarded = array('*');
+```
+
+### 插入、更新、删除
+
+#### 添加一条记录
+```
+$user = new User;
+
+$user->name = 'John';
+
+$user->save();
+```
+>* 注意：通常情况下，Eloquent模型有自增键。如果你需要指定自己的，在模型中设置`incrementing`属性为`false`。
+
+你可以使用`create`方法，使用一行代码就可以创建一个新的模型。`create`方法会返回插入模型的实例。当然了，你必须指定属性`fillable`或者`guarded`，因为所有的`Eloquent`模型都防范批量赋值。
+
+使用自增id保存或者新建模型实例后，你可以通过`id`属性来获取它的值：
+```php
+$insertedId = $user->id;
+```
+
+#### 给模型设置`Guarded`属性
+```php
+class User extends Eloquent{
+    protected $guarded = array('id', 'account_id');
+}
+```
+
+#### 使用模型的`create`方法
+```php
+// Create a new user in the database...
+$user = User::create(array('name' => 'John'));
+
+// Retrieve the user by the attributes, or create it if it doesn't exist...
+$user = User::firstOrCreate(array('name' => 'John'));
+
+// Retrieve the user by the attributes, or instantiate a new instance...
+$user = User::firstOrNew(array('name' => 'John'));
+```
+
+
+#### 获取模型后更新
+你可以先获取一个模型实例，改变它的属性值，然后用`save`方法来更新：
+```php
+$user = User::find(1);
+
+$user->email = 'john@foo.com';
+
+$user->save();
+```
+
+#### 保存模型及关系
+若需要保存一个模型实例及所有关系，可以使用`push`方法：
+```php
+$user->push();
+```
+
+你也可以以query的方式来执行udpate
+```php
+$affectedRows = User::where('votes', '>', 100)->update(array('status' => 2));
+```
+>* 注意：当你使用Eloquent的查询生成器时，不会激活任何的事件
+
+#### 删除存在的模型实例
+调用`delete`方法：
+```php
+$user = User::find(1);
+
+$user->delete();
+```
+
+#### 通过主键值来删除模型实例
+```php
+User::destroy(1);
+
+User::destroy(array(1, 2, 3));
+
+User::destroy(1, 2, 3);
+```
+
+当然你可以在一系列的模型实例上执行一个删除query：
+```
+$affectedRows = User::where('votes', '>', 100)->delete();
+```
+
+#### 只更新模型的timestamps字段
+若纸箱更新模型的`timestamps`字段，使用`touch`方法：
+```php
+$user->touch();
+```
+
+### 软删除
+当执行软删除时，并不会真正的从数据库删除数据，而是在记录的`deleted_at`时间戳进行设置。使用它需要在模型里应用`SoftDeletingTrait`：
+```
+user Illuminate\Database\Eloquent\SoftDeletingTrait
+
+class User extends Eloquent{
+
+    use SoftDeletingTrait;
+
+    protected $dates = ['deleted_at'];
+}
+```
+数据表添加`deleted_at`字段后，就可以在数据库迁移时用`softDeletes`方法：
+
+```php
+$table->softDeletes();
+```
+现在在模型上使用`delete`方法时，对应字段`deleted_at`值会设置为当前时间戳。当查询一个使用了软删除的模型时，“软删除”的数据不会包含到结果中。
+
+#### 强制软删除数据显示到结果集中
+若想强制显示软删除数据，query时使用`withTrashed`方法：
+```php
+$user = User::withTranshed()->where('account_id', 1)->get();
+```
+
+`withTranshed`方法在关联时依然有效：
+```
+$user->posts()->withTrashed()->get();
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
