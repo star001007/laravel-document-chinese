@@ -13,8 +13,8 @@
    * [Homestead](homestead.md)
    * [请求的生命周期](request_lifecycle.md)
    * [路由](routing.md)
-   * [请求和输入](request&input.md)
-   * [视图和响应](views&responses.md)
+   * [请求和输入](request_input.md)
+   * [视图和响应](views_responses.md)
    * [控制器](controllers.md)
    * [错误和日志](errrors&logging.md)
 * 深入学习
