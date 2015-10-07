@@ -38,6 +38,7 @@ vagrant box add laravel/homestead
 ```
 需要几分钟来下载这个盒子，根据你的网络环境花费时间不同。
 如果失败了，可能是你的vagrant版本问题，它需要盒子的url地址，你需要如下操作：
+   
    vagrant box add laravel/homestead https://atlas.hashicorp.com/laravel/boxes/homestead
 
 #### 安装Homestead
